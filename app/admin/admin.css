@@ -26,7 +26,7 @@
 .admin-topbar strong { color: #17678c; font-family: Consolas, monospace; font-size: 16px; letter-spacing: .04em; white-space: nowrap; }
 .admin-topbar span { color: #728695; font-size: 12px; }
 .admin-top-actions { display: flex; align-items: center; gap: 12px; }
-.admin-top-actions a, .admin-bottom-actions button, .admin-modal-actions button, .admin-list-heading button, .admin-add-copy {
+.admin-top-actions a, .admin-top-actions button, .admin-bottom-actions button, .admin-modal-actions button, .admin-list-heading button, .admin-add-copy {
   min-height: 42px;
   padding: 0 16px;
   display: inline-flex;
@@ -41,7 +41,7 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.admin-top-actions a:hover, .admin-bottom-actions button:hover, .admin-modal-actions button:hover, .admin-list-heading button:hover, .admin-add-copy:hover { background: #ecf5f9; }
+.admin-top-actions a:hover, .admin-top-actions button:hover, .admin-bottom-actions button:hover, .admin-modal-actions button:hover, .admin-list-heading button:hover, .admin-add-copy:hover { background: #ecf5f9; }
 .admin-app .admin-primary { border-color: #17678c; background: #17678c; color: #fff; }
 .admin-app .admin-primary:hover { background: #125574; color: #fff; }
 .admin-layout { max-width: 1600px; margin: auto; display: grid; grid-template-columns: 260px minmax(0, 1fr); }
@@ -102,6 +102,18 @@
 .admin-modal .admin-token-help { margin: 0; font-size: 12px; }
 .admin-token-help a { color: #17678c; font-weight: 700; }
 .admin-modal-actions { margin-top: 22px; display: flex; justify-content: flex-end; gap: 10px; }
+.admin-gate { display: grid; place-items: center; padding: 24px; }
+.admin-gate-card { width: min(100%, 520px); padding: clamp(30px, 5vw, 48px); display: grid; justify-items: start; gap: 20px; border: 1px solid #dce6ec; border-radius: 16px; background: #fff; box-shadow: 0 18px 60px rgba(18, 58, 85, .08); }
+.admin-gate-card strong { color: #17678c; font-family: Consolas, monospace; letter-spacing: .05em; }
+.admin-gate-card h1 { margin: 0; font-size: clamp(28px, 4vw, 40px); line-height: 1.1; letter-spacing: -.04em; }
+.admin-gate-card p { margin: 0; color: #526777; line-height: 1.6; }
+.admin-gate-card > a { color: #17678c; font-size: 13px; font-weight: 700; }
+.admin-gate-card .admin-login-link { padding: 14px 20px; border-radius: 8px; background: #17678c; color: #fff; text-decoration: none; }
+.admin-setup-card { width: min(100%, 660px); }
+.admin-setup-card code { overflow-wrap: anywhere; font-size: 12px; }
+.admin-setup-fields { width: 100%; }
+.admin-setup-fields .admin-field { margin-bottom: 14px; }
+.admin-app .admin-setup-button { padding: 13px 18px; border: 0; border-radius: 8px; font-weight: 700; }
 
 @media (max-width: 980px) {
   .admin-layout { grid-template-columns: 1fr; }

@@ -6,5 +6,6 @@ node_modules/
 out/
 dist/
 .wrangler/
+*.tsbuildinfo
 .env*
 !.env.example

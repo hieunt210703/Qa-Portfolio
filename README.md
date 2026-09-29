@@ -30,9 +30,17 @@ Open <http://localhost:3000>.
 
 ## Update content
 
-Open `/admin/` on the running website. Edit the introduction, experience, projects, test cases, execution results, strategy, defect, test data, or English/Vietnamese copy. Draft changes are saved in the current browser. Use **Preview draft** to inspect them on the website before publishing, and **Download JSON** to keep a backup.
+The public portfolio stays on GitHub Pages. `/admin/` there redirects to the owner-only admin hosted on Sites. Sign in with the GitHub account allowed by `ADMIN_GITHUB_LOGIN`. **Save draft online** stores content in the admin database without changing the public site. **Publish** saves the latest edit, commits `content/portfolio.json` and the matching Markdown/CSV artifacts to `main`, and lets the existing GitHub Pages workflow rebuild the public site. No token is entered on each publish. A browser-local copy is kept for preview and recovery, and JSON import/export remains available.
 
-To publish, create a fine-grained GitHub personal access token limited to this repository with **Contents: Read and write** permission. Enter it only in the Publish dialog. The token is used for that request and is not saved. Publishing makes one commit containing `content/portfolio.json` and the corresponding Markdown/CSV QA artifacts. The existing GitHub Pages workflow then builds the public website. The admin page itself is reachable by visitors; only a valid repository token can publish.
+Local `npm run dev` supports editing and previewing a browser-local draft. Cloud save and GitHub sign-in are available on the hosted admin, where the Worker API and database are installed.
+
+### One-time GitHub App setup
+
+1. The Sites runtime needs `ADMIN_GITHUB_LOGIN` (the allowed GitHub username), `ADMIN_OWNER_EMAIL` (the Sites owner's email), and `SESSION_KEY` (32 random bytes encoded as base64url). The email and key are stored as Sites secrets. Generate a new key locally with `node -e "console.log(require('node:crypto').randomBytes(32).toString('base64url'))"` if this site is recreated.
+2. Open the owner-only [online admin](https://hieunt-qa-portfolio.loretaraiche3.chatgpt.site/admin/). Its setup screen links to [GitHub App registration](https://docs.github.com/en/apps/creating-github-apps/registering-a-github-app/registering-a-github-app) with the callback URL prefilled. Give the app **Contents: Read and write** repository permission, disable unused webhooks, and install it for **only** `Qa-Portfolio`. Keep expiring user access tokens enabled.
+3. Copy the new App's Client ID and Client Secret into the owner-only setup form. The secret is encrypted with `SESSION_KEY` in the admin database, and is never committed or sent through chat. Sign in with GitHub once, then use **Save draft online** and **Publish**. GitHub may require sign-in again if the authorization expires or is revoked.
+
+The GitHub App user token stays inside an encrypted, HTTP-only cookie on the admin origin. The browser page does not receive the token. The backend checks the GitHub login against the allowlist and rejects cross-origin write requests. The setup form also checks the Sites owner identity. The admin remains owner-only on Sites as an additional access layer.
 
 ## Quality checks
 

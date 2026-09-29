@@ -3,8 +3,18 @@
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { defaultPortfolioContent, draftStorageKey, isPortfolioContent, type LocalizedText, type PortfolioContent } from "../content";
-import { publishPortfolioContent } from "./publish";
 import "./admin.css";
+
+const onlineAdminUrl = "https://hieunt-qa-portfolio.loretaraiche3.chatgpt.site/admin/";
+const publicWebsiteUrl = "https://hieunt210703.github.io/Qa-Portfolio/";
+type AuthStatus = "checking" | "setup" | "signedIn" | "signedOut" | "local" | "unavailable";
+
+async function adminRequest<T>(path: string, options?: RequestInit): Promise<T> {
+  const response = await fetch(`/admin-api/${path}`, { credentials: "same-origin", cache: "no-store", ...options });
+  const data = await response.json() as T & { error?: string };
+  if (!response.ok) throw new Error(data.error || `Không hoàn tất được yêu cầu (HTTP ${response.status}).`);
+  return data;
+}
 
 type Tab = "profile" | "experience" | "cases" | "runs" | "strategy" | "defect" | "data" | "copy";
 
@@ -83,22 +93,76 @@ export default function AdminPage() {
   const [copySearch, setCopySearch] = useState("");
   const [newCopyKey, setNewCopyKey] = useState("");
   const [publishOpen, setPublishOpen] = useState(false);
-  const [token, setToken] = useState("");
+  const [authStatus, setAuthStatus] = useState<AuthStatus>("checking");
+  const [signedInAs, setSignedInAs] = useState("");
+  const [setupInfo, setSetupInfo] = useState<{ callbackUrl: string; registrationUrl: string } | null>(null);
+  const [clientId, setClientId] = useState("");
+  const [clientSecret, setClientSecret] = useState("");
+  const [setupSaving, setSetupSaving] = useState(false);
+  const [publishedContent, setPublishedContent] = useState<PortfolioContent>(defaultPortfolioContent);
+  const [saving, setSaving] = useState(false);
   const [publishing, setPublishing] = useState(false);
   const [commitUrl, setCommitUrl] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    const timer = window.setTimeout(() => {
+    const timer = window.setTimeout(async () => {
+      if (window.location.hostname === "hieunt210703.github.io") {
+        window.location.replace(onlineAdminUrl);
+        return;
+      }
+      let localDraft: PortfolioContent | null = null;
       try {
         const saved = window.localStorage.getItem(draftStorageKey);
         if (saved) {
           const parsed: unknown = JSON.parse(saved);
-          if (isPortfolioContent(parsed)) setDraft(parsed);
+          if (isPortfolioContent(parsed)) {
+            localDraft = parsed;
+            setDraft(parsed);
+          }
           else setNotice("Bản nháp cũ không đúng định dạng. Đang hiển thị nội dung đã xuất bản.");
         }
       } catch {
         setNotice("Không đọc được bản nháp cũ. Đang hiển thị nội dung đã xuất bản.");
+      }
+      if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+        setAuthStatus("local");
+        setReady(true);
+        return;
+      }
+      try {
+        const session = await adminRequest<{ login: string }>("session");
+        setSignedInAs(session.login);
+        const [published, saved] = await Promise.all([
+          adminRequest<PortfolioContent>("published"),
+          adminRequest<{ content: PortfolioContent | null; updatedAt: string | null }>("draft"),
+        ]);
+        if (isPortfolioContent(published)) setPublishedContent(published);
+        if (saved.content && isPortfolioContent(saved.content)) {
+          if (localDraft && JSON.stringify(localDraft) !== JSON.stringify(saved.content)) {
+            window.localStorage.setItem(`${draftStorageKey}-backup`, JSON.stringify(localDraft));
+            setNotice("Đã tải bản nháp online. Bản nháp cũ trên máy được giữ để bạn khôi phục nếu cần.");
+          }
+          setDraft(saved.content);
+        } else if (!localDraft && isPortfolioContent(published)) setDraft(published);
+        setAuthStatus("signedIn");
+      } catch (error) {
+        const message = error instanceof Error ? error.message : "Không kết nối được với admin online.";
+        if (message.includes("chưa được cấu hình")) {
+          try {
+            const setup = await adminRequest<{ configured: boolean; callbackUrl: string; registrationUrl: string }>("setup");
+            if (!setup.configured) {
+              setSetupInfo(setup);
+              setAuthStatus("setup");
+              setReady(true);
+              return;
+            }
+          } catch {
+            // The owner-only setup endpoint is unavailable here.
+          }
+        }
+        setAuthStatus(message.includes("đăng nhập") ? "signedOut" : "unavailable");
+        setNotice(message);
       }
       setReady(true);
     }, 0);
@@ -129,12 +193,29 @@ export default function AdminPage() {
   }).sort((first, second) => first.localeCompare(second)), [draft.copy, copySearch]);
   const shownCopyKeys = copyKeys.slice(0, 30);
 
-  const saveDraft = () => {
+  const saveDraftOnline = async (content: PortfolioContent) => {
+    if (authStatus !== "signedIn") throw new Error("Hãy đăng nhập GitHub để lưu bản nháp online.");
+    return adminRequest<{ updatedAt: string }>("draft", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(content),
+    });
+  };
+
+  const saveDraft = async () => {
+    setSaving(true);
     try {
       window.localStorage.setItem(draftStorageKey, JSON.stringify(draft));
-      setNotice("Đã lưu bản nháp trên trình duyệt này.");
-    } catch {
-      setNotice("Không thể lưu bản nháp. Hãy tải tệp JSON để giữ bản sao.");
+      if (authStatus === "signedIn") {
+        await saveDraftOnline(draft);
+        setNotice("Đã lưu bản nháp online. Website công khai chưa thay đổi.");
+      } else {
+        setNotice("Đã lưu bản nháp trên máy này. Đăng nhập ở admin online để lưu lên mạng.");
+      }
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Không thể lưu bản nháp. Hãy tải tệp JSON để giữ bản sao.");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -161,9 +242,39 @@ export default function AdminPage() {
 
   const resetDraft = () => {
     if (!window.confirm("Bỏ toàn bộ thay đổi trong bản nháp và trở về nội dung đang xuất bản?")) return;
-    setDraft(structuredClone(defaultPortfolioContent));
+    setDraft(structuredClone(publishedContent));
     setNotice("Đã khôi phục nội dung từ phiên bản đang xuất bản.");
     setCommitUrl("");
+  };
+
+  const restoreLocalBackup = () => {
+    try {
+      const saved = window.localStorage.getItem(`${draftStorageKey}-backup`);
+      const parsed: unknown = saved ? JSON.parse(saved) : null;
+      if (!isPortfolioContent(parsed)) throw new Error("Không còn bản nháp cũ trên máy.");
+      setDraft(parsed);
+      setNotice("Đã khôi phục bản nháp trên máy. Bấm Lưu bản nháp để cập nhật bản online.");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Không khôi phục được bản nháp cũ.");
+    }
+  };
+
+  const saveSetup = async () => {
+    setSetupSaving(true);
+    try {
+      await adminRequest("setup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ clientId, clientSecret }),
+      });
+      setClientSecret("");
+      setNotice("");
+      setAuthStatus("signedOut");
+    } catch (error) {
+      setNotice(error instanceof Error ? error.message : "Không lưu được cấu hình GitHub App.");
+    } finally {
+      setSetupSaving(false);
+    }
   };
 
   const submitPublish = async () => {
@@ -173,17 +284,17 @@ export default function AdminPage() {
       setPublishOpen(false);
       return;
     }
-    if (!token.trim()) {
-      setNotice("Nhập GitHub token để xuất bản.");
+    if (authStatus !== "signedIn") {
+      setNotice("Hãy đăng nhập GitHub trên trang admin online để xuất bản.");
       return;
     }
     setPublishing(true);
     setNotice("");
     try {
-      const url = await publishPortfolioContent(draft, token);
-      setCommitUrl(url);
+      await saveDraftOnline(draft);
+      const result = await adminRequest<{ commitUrl: string }>("publish", { method: "POST" });
+      setCommitUrl(result.commitUrl);
       setPublishOpen(false);
-      setToken("");
       setNotice("Đã gửi nội dung lên GitHub. Website sẽ cập nhật sau khi quy trình xuất bản hoàn tất.");
     } catch (error) {
       setNotice(error instanceof Error ? error.message : "Xuất bản chưa thành công.");
@@ -192,14 +303,41 @@ export default function AdminPage() {
     }
   };
 
+  if (authStatus === "checking") {
+    return <main className="admin-app admin-gate"><div className="admin-gate-card"><strong>HIEU.NT / QA</strong><h1>Đang mở trang quản lý...</h1></div></main>;
+  }
+
+  if (authStatus === "setup") {
+    return <main className="admin-app admin-gate"><div className="admin-gate-card admin-setup-card">
+      <strong>HIEU.NT / QA</strong>
+      <h1>Thiết lập đăng nhập GitHub một lần</h1>
+      <p>Tạo GitHub App cho tài khoản của bạn, cấp quyền <b>Contents: Read and write</b> và chỉ cài cho repository <b>Qa-Portfolio</b>. Sau đó điền Client ID và Client Secret bên dưới.</p>
+      {setupInfo && <><a href={setupInfo.registrationUrl} target="_blank" rel="noreferrer">Mở trang tạo GitHub App ↗</a><p>Callback URL: <code>{setupInfo.callbackUrl}</code></p></>}
+      <div className="admin-setup-fields"><Field label="GitHub App Client ID" value={clientId} onChange={setClientId} /><Field label="GitHub App Client Secret" type="password" value={clientSecret} onChange={setClientSecret} hint="Thông tin này được mã hóa và lưu trong khu vực admin riêng, không đưa vào mã nguồn." /></div>
+      {notice && <p className="admin-notice" role="status">{notice}</p>}
+      <button className="admin-primary admin-setup-button" type="button" disabled={setupSaving || !clientId.trim() || !clientSecret.trim()} onClick={() => void saveSetup()}>{setupSaving ? "Đang lưu..." : "Lưu thiết lập"}</button>
+    </div></main>;
+  }
+
+  if (authStatus === "signedOut" || authStatus === "unavailable") {
+    return <main className="admin-app admin-gate"><div className="admin-gate-card">
+      <strong>HIEU.NT / QA</strong>
+      <h1>{authStatus === "signedOut" ? "Đăng nhập để quản lý portfolio" : "Admin online chưa sẵn sàng"}</h1>
+      <p>{authStatus === "signedOut" ? "Chỉ tài khoản GitHub được phép mới có thể lưu bản nháp online và xuất bản." : notice}</p>
+      {authStatus === "signedOut" && <a className="admin-primary admin-login-link" href="/admin-api/auth/start">Đăng nhập bằng GitHub ↗</a>}
+      <a href={publicWebsiteUrl}>Xem website công khai</a>
+    </div></main>;
+  }
+
   return (
     <main className="admin-app">
       <header className="admin-topbar">
         <div><strong>HIEU.NT / QA</strong><span>Content studio</span></div>
         <div className="admin-top-actions">
-          <Link href="/">Xem website</Link>
+          <a href={authStatus === "local" ? "/" : publicWebsiteUrl}>Xem website</a>
           <Link href="/?preview=1" target="_blank" rel="noreferrer">Xem trước bản nháp ↗</Link>
-          <button className="admin-primary" type="button" onClick={() => setPublishOpen(true)}>Xuất bản</button>
+          {authStatus === "signedIn" && <button type="button" onClick={async () => { await adminRequest("logout", { method: "POST" }); setAuthStatus("signedOut"); }}>Đăng xuất {signedInAs}</button>}
+          {authStatus === "signedIn" ? <button className="admin-primary" type="button" onClick={() => setPublishOpen(true)}>Xuất bản</button> : <a className="admin-primary" href={onlineAdminUrl}>Mở admin online ↗</a>}
         </div>
       </header>
 
@@ -211,7 +349,7 @@ export default function AdminPage() {
               <button key={item.id} type="button" className={tab === item.id ? "active" : ""} onClick={() => setTab(item.id)} aria-current={tab === item.id ? "page" : undefined}>{item.label}</button>
             ))}
           </nav>
-          <div className="admin-sidebar-note">Bản nháp lưu trên trình duyệt này. Nút Xuất bản sẽ cập nhật tệp nội dung trong GitHub và kích hoạt bản dựng website.</div>
+          <div className="admin-sidebar-note">{authStatus === "signedIn" ? "Bấm Lưu bản nháp để lưu online. Chỉ nút Xuất bản mới cập nhật website công khai." : "Bạn đang xem bản local. Mở admin online và đăng nhập GitHub để lưu hoặc xuất bản."}</div>
         </aside>
 
         <div className="admin-main">
@@ -351,22 +489,21 @@ export default function AdminPage() {
           </div>}
 
           <div className="admin-bottom-actions">
-            <button className="admin-primary" type="button" onClick={saveDraft}>Lưu bản nháp</button>
+            <button className="admin-primary" type="button" disabled={saving} onClick={() => void saveDraft()}>{saving ? "Đang lưu..." : authStatus === "signedIn" ? "Lưu bản nháp online" : "Lưu bản nháp trên máy"}</button>
             <button type="button" onClick={downloadDraft}>Tải bản sao JSON</button>
             <button type="button" onClick={() => importRef.current?.click()}>Nhập bản nháp</button>
             <button type="button" onClick={resetDraft}>Khôi phục bản đã xuất bản</button>
+            {authStatus === "signedIn" && <button type="button" onClick={restoreLocalBackup}>Khôi phục bản nháp cũ trên máy</button>}
             <input ref={importRef} type="file" accept="application/json,.json" hidden onChange={(event) => { const file = event.target.files?.[0]; if (file) void importDraft(file); event.target.value = ""; }} />
           </div>
         </div>
       </div>
 
-      {publishOpen && <div className="admin-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !publishing) { setPublishOpen(false); setToken(""); } }}>
+      {publishOpen && <div className="admin-modal-backdrop" onMouseDown={(event) => { if (event.target === event.currentTarget && !publishing) setPublishOpen(false); }}>
         <div className="admin-modal" role="dialog" aria-modal="true" aria-labelledby="publish-title">
           <h2 id="publish-title">Xuất bản portfolio</h2>
-          <p>Nội dung sẽ được ghi vào GitHub. GitHub Pages sẽ cập nhật website sau khi bản dựng hoàn tất. Bản nháp vẫn được giữ trên máy này.</p>
-          <Field label="GitHub fine-grained token" type="password" value={token} onChange={setToken} hint="Chỉ cần quyền Contents: Read and write cho repo Qa-Portfolio. Token chỉ dùng trong lần xuất bản này và không được lưu." />
-          <p className="admin-token-help"><a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noreferrer">Tạo token giới hạn cho repo Qa-Portfolio ↗</a></p>
-          <div className="admin-modal-actions"><button type="button" disabled={publishing} onClick={() => { setPublishOpen(false); setToken(""); }}>Hủy</button><button className="admin-primary" type="button" disabled={publishing || !token.trim()} onClick={() => void submitPublish()}>{publishing ? "Đang xuất bản..." : "Xác nhận xuất bản"}</button></div>
+          <p>Bản nháp hiện tại sẽ được lưu online rồi cập nhật lên website công khai. Bạn đang đăng nhập bằng GitHub; không cần nhập token.</p>
+          <div className="admin-modal-actions"><button type="button" disabled={publishing} onClick={() => setPublishOpen(false)}>Hủy</button><button className="admin-primary" type="button" disabled={publishing} onClick={() => void submitPublish()}>{publishing ? "Đang xuất bản..." : "Xác nhận xuất bản"}</button></div>
         </div>
       </div>}
     </main>
