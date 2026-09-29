@@ -1,36 +1,35 @@
 import type { Metadata, Viewport } from "next";
+import { defaultPortfolioContent } from "./content";
 import "./globals.css";
 
 const siteUrl = "https://hieunt210703.github.io/Qa-Portfolio";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: "Hieu NT — QA Portfolio",
-  description:
-    "A practical QA portfolio covering test strategy, manual test cases, execution results, and defect reporting.",
-  applicationName: "Hieu NT QA Portfolio",
-  authors: [{ name: "Hieu NT" }],
+  title: defaultPortfolioContent.settings.siteTitle,
+  description: defaultPortfolioContent.settings.siteDescription,
+  applicationName: defaultPortfolioContent.settings.siteTitle,
+  authors: [{ name: defaultPortfolioContent.settings.ownerName }],
   openGraph: {
-    title: "Hieu NT — QA Portfolio",
-    description:
-      "Test strategy, execution evidence, and defect reporting in one focused QA case study.",
+    title: defaultPortfolioContent.settings.siteTitle,
+    description: defaultPortfolioContent.settings.siteDescription,
     url: siteUrl,
-    siteName: "Hieu NT QA Portfolio",
+    siteName: defaultPortfolioContent.settings.siteTitle,
     type: "website",
     images: [
       {
-        url: "https://hieunt210703.github.io/Qa-Portfolio/og.png",
-        width: 1730,
-        height: 909,
-        alt: "Hieu NT QA Portfolio — I test what users actually do.",
+        url: "https://hieunt210703.github.io/Qa-Portfolio/og-light.png",
+        width: 1732,
+        height: 908,
+        alt: "Hieu NT QA Portfolio — Quality you can verify.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hieu NT — QA Portfolio",
-    description: "A practical, evidence-led manual QA portfolio.",
-    images: ["https://hieunt210703.github.io/Qa-Portfolio/og.png"],
+    title: defaultPortfolioContent.settings.siteTitle,
+    description: defaultPortfolioContent.settings.siteDescription,
+    images: ["https://hieunt210703.github.io/Qa-Portfolio/og-light.png"],
   },
 };
 
@@ -38,7 +37,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   colorScheme: "dark light",
-  themeColor: "#08110f",
+  themeColor: "#f8fafc",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

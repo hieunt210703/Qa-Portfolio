@@ -11,7 +11,7 @@
     "prebuild": "node scripts/generate-portfolio-data.mjs",
     "build": "next build && node scripts/prepare-dist.mjs",
     "start": "npx serve out",
-    "test": "node --test tests/portfolio-data.test.mjs",
+    "test": "node --test tests/portfolio-data.test.mjs tests/admin-artifacts.test.mjs",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern out --ignore-pattern .next"
   },
   "dependencies": {

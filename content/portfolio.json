@@ -1,0 +1,1169 @@
+{
+  "schemaVersion": 1,
+  "profile": {
+    "heroTitleTop": {
+      "en": "Practical QA.",
+      "vi": "Kiểm thử thực tế."
+    },
+    "heroTitleAccent": {
+      "en": "Clear evidence.",
+      "vi": "Minh chứng rõ ràng."
+    },
+    "intro": {
+      "en": "With over 1.5 years of QA experience, I test web, mobile, and API workflows from requirements through defect follow-up. The DemoQA case study below illustrates the testing process step by step.",
+      "vi": "Với hơn 1,5 năm kinh nghiệm QA, tôi kiểm thử các luồng Web, Mobile và API từ phân tích yêu cầu đến theo dõi lỗi. Case study DemoQA bên dưới minh họa từng bước của quy trình kiểm thử."
+    }
+  },
+  "experience": {
+    "titleTop": {
+      "en": "Projects I've",
+      "vi": "Các dự án tôi đã"
+    },
+    "titleAccent": {
+      "en": "tested.",
+      "vi": "kiểm thử."
+    },
+    "summary": {
+      "en": "At Laztar Software Company, I worked on requirement analysis, test design, functional and regression testing, and defect follow-up with developers.",
+      "vi": "Tại Laztar Software Company, tôi tham gia phân tích yêu cầu, thiết kế ca kiểm thử, kiểm thử chức năng và hồi quy, đồng thời theo dõi lỗi cùng lập trình viên."
+    },
+    "tools": [
+      "Jira",
+      "Postman",
+      "Swagger",
+      "JMeter"
+    ],
+    "projects": [
+      {
+        "id": "ez-screen-translator",
+        "name": {
+          "en": "EZ Screen Translator",
+          "vi": "EZ Screen Translator"
+        },
+        "type": {
+          "en": "Android application",
+          "vi": "Ứng dụng Android"
+        },
+        "description": {
+          "en": "Tested OCR, camera and voice translation, subscription flows, language switching, and compatibility across Android devices.",
+          "vi": "Kiểm thử OCR, dịch bằng camera và giọng nói, luồng đăng ký gói, chuyển ngôn ngữ và khả năng tương thích trên nhiều thiết bị Android."
+        }
+      },
+      {
+        "id": "ai-planning",
+        "name": {
+          "en": "AI-powered planning platform",
+          "vi": "Nền tảng lập kế hoạch dùng AI"
+        },
+        "type": {
+          "en": "Web and API",
+          "vi": "Web và API"
+        },
+        "description": {
+          "en": "Checked generated goals, milestones, reminders, progress tracking, and business rules; investigated edge cases in AI-generated plans.",
+          "vi": "Kiểm tra mục tiêu, cột mốc, lời nhắc, theo dõi tiến độ và quy tắc nghiệp vụ; tìm các trường hợp biên trong kế hoạch do AI tạo."
+        }
+      },
+      {
+        "id": "event-management",
+        "name": {
+          "en": "Event management platform",
+          "vi": "Nền tảng quản lý sự kiện"
+        },
+        "type": {
+          "en": "Web and API",
+          "vi": "Web và API"
+        },
+        "description": {
+          "en": "Tested registration, QR check-in, voting, notifications, and reports; tracked defects and verified fixes in Jira.",
+          "vi": "Kiểm thử đăng ký, check-in bằng QR, bình chọn, thông báo và báo cáo; theo dõi lỗi và xác nhận bản sửa trên Jira."
+        }
+      }
+    ]
+  },
+  "qa": {
+    "testCases": [
+      {
+        "id": "TC-S-001",
+        "title": "Home page loads",
+        "type": "Smoke",
+        "priority": "High",
+        "preconditions": "Demo site up",
+        "steps": [
+          "1. Navigate to home page",
+          "2. Observe page"
+        ],
+        "expected": "Home page content loads, key navigation present"
+      },
+      {
+        "id": "TC-S-002",
+        "title": "Text Box: submit form",
+        "type": "Smoke",
+        "priority": "High",
+        "preconditions": "Text Box page open",
+        "steps": [
+          "1. Fill required fields",
+          "2. Click Submit"
+        ],
+        "expected": "Form submission shows entered data confirmation"
+      },
+      {
+        "id": "TC-F-001",
+        "title": "Text Box: validate required email",
+        "type": "Functional",
+        "priority": "High",
+        "preconditions": "Text Box page open",
+        "steps": [
+          "1. Enter invalid email",
+          "2. Submit"
+        ],
+        "expected": "Validation message shown; submission blocked"
+      },
+      {
+        "id": "TC-F-002",
+        "title": "File Upload: accept valid file",
+        "type": "Functional",
+        "priority": "Medium",
+        "preconditions": "Upload page open",
+        "steps": [
+          "1. Choose supported file",
+          "2. Upload"
+        ],
+        "expected": "File uploads successfully and confirmation shown"
+      },
+      {
+        "id": "TC-R-001",
+        "title": "Links: no broken links on main sections",
+        "type": "Regression",
+        "priority": "High",
+        "preconditions": "Home page open",
+        "steps": [
+          "1. Click primary links",
+          "2. Verify pages load"
+        ],
+        "expected": "No broken links; pages reachable"
+      }
+    ],
+    "executions": [
+      {
+        "id": "TC-S-001",
+        "title": "Home page loads",
+        "executedBy": "CyberDataCataProjects",
+        "date": "2026-01-19",
+        "result": "Pass",
+        "notes": ""
+      },
+      {
+        "id": "TC-S-002",
+        "title": "Text Box: submit form",
+        "executedBy": "CyberDataCataProjects",
+        "date": "2026-01-19",
+        "result": "Pass",
+        "notes": "Used sample data row 1"
+      },
+      {
+        "id": "TC-F-001",
+        "title": "Text Box: validate required email",
+        "executedBy": "CyberDataCataProjects",
+        "date": "2026-01-19",
+        "result": "Fail",
+        "notes": "Validation not shown for invalid email"
+      }
+    ],
+    "testData": [
+      {
+        "name": "Alice Example",
+        "email": "alice@example.com",
+        "current_address": "123 Main St",
+        "permanent_address": "456 Other St"
+      },
+      {
+        "name": "Bob Tester",
+        "email": "bob.tester+qa@example.com",
+        "current_address": "789 North Rd",
+        "permanent_address": "101 South Ave"
+      }
+    ],
+    "planSections": [
+      {
+        "title": "Purpose and Objectives",
+        "items": [
+          "Demonstrate structured manual testing: planning, designing test cases, executing, reporting bugs, and tracking test data.",
+          "Provide artifacts suitable for interviews and initial team contributions."
+        ]
+      },
+      {
+        "title": "Scope",
+        "items": [
+          "In-scope: Core interactive UI elements (forms, buttons, links), basic workflows (form submission, file upload/download), input validation, navigation and accessibility checks.",
+          "Out-of-scope: Performance, security, and extensive cross-browser matrix (can be added later)."
+        ]
+      },
+      {
+        "title": "Test Approach",
+        "items": [
+          "Manual test cases organized by type: Smoke, Functional, Regression.",
+          "Exploratory testing during test execution to discover edge cases.",
+          "Use sample test data in test_data.csv."
+        ]
+      },
+      {
+        "title": "Test Items",
+        "items": [
+          "Text Box (Forms)",
+          "Buttons",
+          "Links (including broken links)",
+          "File upload/download",
+          "Checkboxes and radio buttons"
+        ]
+      },
+      {
+        "title": "Test Types",
+        "items": [
+          "Smoke: basic sanity checks to ensure major flows work.",
+          "Functional: feature-level tests for expected behavior.",
+          "Regression: re-run critical tests after fixes."
+        ]
+      },
+      {
+        "title": "Entry Criteria",
+        "items": [
+          "Demo site accessible and stable.",
+          "Test cases reviewed."
+        ]
+      },
+      {
+        "title": "Exit Criteria",
+        "items": [
+          "All smoke tests pass.",
+          "No P0/P1 open defects.",
+          "Test execution records updated."
+        ]
+      },
+      {
+        "title": "Risks and Mitigations",
+        "items": [
+          "Demo site instability: schedule testing during low-traffic windows and document intermittent failures.",
+          "Incomplete requirements: adopt exploratory testing and document assumptions."
+        ]
+      },
+      {
+        "title": "Reporting",
+        "items": [
+          "Use BUG_REPORT_TEMPLATE.md for issues.",
+          "Store execution results in SAMPLE_TEST_EXECUTION_REPORT.csv."
+        ]
+      },
+      {
+        "title": "How I'd extend this",
+        "items": [
+          "Add automation (suggested stack: JavaScript + Playwright) for smoke/regression tests.",
+          "Add GitHub Actions CI to run automation on push and PRs.",
+          "Add HTML/JUnit reporting and Docker-based test runner for reproducible runs."
+        ]
+      }
+    ],
+    "bug": {
+      "title": "Form submit accepts invalid email",
+      "environment": "Windows 10, Chrome 117, https://demoqa.com/text-box",
+      "severity": "P1",
+      "steps": [
+        "Open Text Box page",
+        "Enter 'not-an-email' in Email field",
+        "Click Submit"
+      ],
+      "actual": "Form submits and confirmation shows invalid email",
+      "expected": "Validation error shown and form not submitted",
+      "status": "OPEN"
+    }
+  },
+  "copy": {
+    "Skip to content": {
+      "en": "Skip to content",
+      "vi": "Bỏ qua đến nội dung"
+    },
+    "Hieu NT QA Portfolio home": {
+      "en": "Hieu NT QA Portfolio home",
+      "vi": "Trang chủ hồ sơ QA của Hieu NT"
+    },
+    "Practical QA.": {
+      "en": "Practical QA.",
+      "vi": "Kiểm thử thực tế."
+    },
+    "Clear evidence.": {
+      "en": "Clear evidence.",
+      "vi": "Minh chứng rõ ràng."
+    },
+    "I test web, mobile, and API workflows, from requirements and test cases through execution and defect follow-up. The DemoQA case study below shows my process step by step.": {
+      "en": "I test web, mobile, and API workflows, from requirements and test cases through execution and defect follow-up. The DemoQA case study below shows my process step by step.",
+      "vi": "Tôi kiểm thử các luồng Web, Mobile và API, từ phân tích yêu cầu, thiết kế ca kiểm thử đến thực thi và theo dõi lỗi. Case study DemoQA bên dưới thể hiện từng bước làm việc của tôi."
+    },
+    "With over 1.5 years of QA experience, I test web, mobile, and API workflows from requirements through defect follow-up. The DemoQA case study below shows my process step by step.": {
+      "en": "With over 1.5 years of QA experience, I test web, mobile, and API workflows from requirements through defect follow-up. The DemoQA case study below shows my process step by step.",
+      "vi": "Với hơn 1,5 năm kinh nghiệm QA, tôi kiểm thử các luồng Web, Mobile và API từ phân tích yêu cầu đến theo dõi lỗi. Case study DemoQA bên dưới thể hiện từng bước làm việc của tôi."
+    },
+    "Professional experience": {
+      "en": "Professional experience",
+      "vi": "Kinh nghiệm thực tế"
+    },
+    "Projects I've": {
+      "en": "Projects I've",
+      "vi": "Các dự án tôi đã"
+    },
+    "tested.": {
+      "en": "tested.",
+      "vi": "kiểm thử."
+    },
+    "At Laztar Software Company (Jun 2025 - Jun 2026), I worked on requirement analysis, test design, functional and regression testing, and defect follow-up with developers.": {
+      "en": "At Laztar Software Company (Jun 2025 - Jun 2026), I worked on requirement analysis, test design, functional and regression testing, and defect follow-up with developers.",
+      "vi": "Tại Laztar Software Company (06/2025 - 06/2026), tôi tham gia phân tích yêu cầu, thiết kế ca kiểm thử, kiểm thử chức năng và hồi quy, đồng thời theo dõi lỗi cùng lập trình viên."
+    },
+    "At Laztar Software Company, I worked on requirement analysis, test design, functional and regression testing, and defect follow-up with developers.": {
+      "en": "At Laztar Software Company, I worked on requirement analysis, test design, functional and regression testing, and defect follow-up with developers.",
+      "vi": "Tại Laztar Software Company, tôi tham gia phân tích yêu cầu, thiết kế ca kiểm thử, kiểm thử chức năng và hồi quy, đồng thời theo dõi lỗi cùng lập trình viên."
+    },
+    "Tools used": {
+      "en": "Tools used",
+      "vi": "Công cụ đã dùng"
+    },
+    "Android application": {
+      "en": "Android application",
+      "vi": "Ứng dụng Android"
+    },
+    "Web and API": {
+      "en": "Web and API",
+      "vi": "Web và API"
+    },
+    "EZ Screen Translator": {
+      "en": "EZ Screen Translator",
+      "vi": "EZ Screen Translator"
+    },
+    "AI-powered planning platform": {
+      "en": "AI-powered planning platform",
+      "vi": "Nền tảng lập kế hoạch dùng AI"
+    },
+    "Event management platform": {
+      "en": "Event management platform",
+      "vi": "Nền tảng quản lý sự kiện"
+    },
+    "Tested OCR, camera and voice translation, subscription flows, language switching, and compatibility across Android devices.": {
+      "en": "Tested OCR, camera and voice translation, subscription flows, language switching, and compatibility across Android devices.",
+      "vi": "Kiểm thử OCR, dịch bằng camera và giọng nói, luồng đăng ký gói, chuyển ngôn ngữ và khả năng tương thích trên nhiều thiết bị Android."
+    },
+    "Checked generated goals, milestones, reminders, progress tracking, and business rules; investigated edge cases in AI-generated plans.": {
+      "en": "Checked generated goals, milestones, reminders, progress tracking, and business rules; investigated edge cases in AI-generated plans.",
+      "vi": "Kiểm tra mục tiêu, cột mốc, lời nhắc, theo dõi tiến độ và quy tắc nghiệp vụ; tìm các trường hợp biên trong kế hoạch do AI tạo."
+    },
+    "Tested registration, QR check-in, voting, notifications, and reports; tracked defects and verified fixes in Jira.": {
+      "en": "Tested registration, QR check-in, voting, notifications, and reports; tracked defects and verified fixes in Jira.",
+      "vi": "Kiểm thử đăng ký, check-in bằng QR, bình chọn, thông báo và báo cáo; theo dõi lỗi và xác nhận bản sửa trên Jira."
+    },
+    "With 1.5 years of QA experience, I turn requirements into test cases, record execution results, and report defects. This DemoQA case study shows the work step by step.": {
+      "en": "With 1.5 years of QA experience, I turn requirements into test cases, record execution results, and report defects. This DemoQA case study shows the work step by step.",
+      "vi": "Với 1,5 năm kinh nghiệm QA, tôi chuyển yêu cầu thành ca kiểm thử, ghi nhận kết quả thực thi và báo cáo lỗi. Nghiên cứu tình huống trên DemoQA cho thấy từng bước thực hiện."
+    },
+    "Primary navigation": {
+      "en": "Primary navigation",
+      "vi": "Điều hướng chính"
+    },
+    "Cases": {
+      "en": "Cases",
+      "vi": "Ca kiểm thử"
+    },
+    "Work": {
+      "en": "Work",
+      "vi": "Kinh nghiệm"
+    },
+    "Strategy": {
+      "en": "Strategy",
+      "vi": "Chiến lược"
+    },
+    "Defect": {
+      "en": "Defect",
+      "vi": "Lỗi"
+    },
+    "Contact": {
+      "en": "Contact",
+      "vi": "Liên hệ"
+    },
+    "Switch to light theme": {
+      "en": "Switch to light theme",
+      "vi": "Chuyển sang giao diện sáng"
+    },
+    "Switch to dark theme": {
+      "en": "Switch to dark theme",
+      "vi": "Chuyển sang giao diện tối"
+    },
+    "Light": {
+      "en": "Light",
+      "vi": "Sáng"
+    },
+    "Dark": {
+      "en": "Dark",
+      "vi": "Tối"
+    },
+    "TEST": {
+      "en": "TEST",
+      "vi": "KIỂM THỬ"
+    },
+    "BETTER": {
+      "en": "BETTER",
+      "vi": "TỐT HƠN"
+    },
+    "SOFTWARE": {
+      "en": "SOFTWARE",
+      "vi": "PHẦN MỀM"
+    },
+    "I test what": {
+      "en": "I test what",
+      "vi": "Tôi kiểm thử những gì"
+    },
+    "users actually do.": {
+      "en": "users actually do.",
+      "vi": "người dùng thực sự làm."
+    },
+    "A practical testing case study that turns requirements into clear test coverage, traceable execution results, and actionable defect reports.": {
+      "en": "A practical testing case study that turns requirements into clear test coverage, traceable execution results, and actionable defect reports.",
+      "vi": "Một nghiên cứu tình huống kiểm thử thực tế, chuyển yêu cầu thành phạm vi kiểm thử rõ ràng, kết quả thực thi có thể truy vết và báo cáo lỗi có hướng xử lý."
+    },
+    "Explore test cases": {
+      "en": "Explore test cases",
+      "vi": "Khám phá ca kiểm thử"
+    },
+    "View repository": {
+      "en": "View repository",
+      "vi": "Xem kho mã nguồn"
+    },
+    "QUALITY BUILDS TRUST": {
+      "en": "QUALITY BUILDS TRUST",
+      "vi": "CHẤT LƯỢNG TẠO NIỀM TIN"
+    },
+    "Latest test run summary": {
+      "en": "Latest test run summary",
+      "vi": "Tóm tắt lần kiểm thử gần nhất"
+    },
+    "LATEST TEST RUN": {
+      "en": "LATEST TEST RUN",
+      "vi": "LẦN KIỂM THỬ GẦN NHẤT"
+    },
+    "RUN COMPLETE": {
+      "en": "RUN COMPLETE",
+      "vi": "ĐÃ HOÀN TẤT"
+    },
+    "smoke suite": {
+      "en": "smoke suite",
+      "vi": "bộ kiểm thử smoke"
+    },
+    "executed": {
+      "en": "executed",
+      "vi": "đã chạy"
+    },
+    "passed": {
+      "en": "passed",
+      "vi": "đạt"
+    },
+    "failed": {
+      "en": "failed",
+      "vi": "không đạt"
+    },
+    "Latest executed cases": {
+      "en": "Latest executed cases",
+      "vi": "Các ca kiểm thử vừa chạy"
+    },
+    "Test case": {
+      "en": "Test case",
+      "vi": "Ca kiểm thử"
+    },
+    "Result": {
+      "en": "Result",
+      "vi": "Kết quả"
+    },
+    "tests executed.": {
+      "en": "tests executed.",
+      "vi": "ca đã chạy."
+    },
+    "passed.": {
+      "en": "passed.",
+      "vi": "đạt."
+    },
+    "failed.": {
+      "en": "failed.",
+      "vi": "không đạt."
+    },
+    "View all results": {
+      "en": "View all results",
+      "vi": "Xem toàn bộ kết quả"
+    },
+    "Portfolio metrics": {
+      "en": "Portfolio metrics",
+      "vi": "Số liệu hồ sơ"
+    },
+    "Designed cases": {
+      "en": "Designed cases",
+      "vi": "Ca đã thiết kế"
+    },
+    "Pass rate": {
+      "en": "Pass rate",
+      "vi": "Tỷ lệ đạt"
+    },
+    "Data profiles": {
+      "en": "Data profiles",
+      "vi": "Bộ dữ liệu"
+    },
+    "Top defect": {
+      "en": "Top defect",
+      "vi": "Lỗi ưu tiên cao"
+    },
+    "ANALYZE": {
+      "en": "ANALYZE",
+      "vi": "PHÂN TÍCH"
+    },
+    "REPORT": {
+      "en": "REPORT",
+      "vi": "BÁO CÁO"
+    },
+    "IMPROVE": {
+      "en": "IMPROVE",
+      "vi": "CẢI TIẾN"
+    },
+    "Test case explorer": {
+      "en": "Test case explorer",
+      "vi": "Khám phá ca kiểm thử"
+    },
+    "Coverage you": {
+      "en": "Coverage you",
+      "vi": "Phạm vi kiểm thử"
+    },
+    "can inspect.": {
+      "en": "can inspect.",
+      "vi": "có thể kiểm chứng."
+    },
+    "Every case is generated from the repository's CSV source, keeping the portfolio and test artifacts in sync.": {
+      "en": "Every case is generated from the repository's CSV source, keeping the portfolio and test artifacts in sync.",
+      "vi": "Mỗi ca được tạo từ tệp CSV trong kho mã nguồn, giúp trang giới thiệu và tài liệu kiểm thử luôn đồng bộ."
+    },
+    "Filter by test type": {
+      "en": "Filter by test type",
+      "vi": "Lọc theo loại kiểm thử"
+    },
+    "All": {
+      "en": "All",
+      "vi": "Tất cả"
+    },
+    "Smoke": {
+      "en": "Smoke",
+      "vi": "Smoke"
+    },
+    "Functional": {
+      "en": "Functional",
+      "vi": "Chức năng"
+    },
+    "Regression": {
+      "en": "Regression",
+      "vi": "Hồi quy"
+    },
+    "Search test cases": {
+      "en": "Search test cases",
+      "vi": "Tìm ca kiểm thử"
+    },
+    "Search cases...": {
+      "en": "Search cases...",
+      "vi": "Tìm ca kiểm thử..."
+    },
+    "ID / TYPE": {
+      "en": "ID / TYPE",
+      "vi": "ID / LOẠI"
+    },
+    "TEST CASE": {
+      "en": "TEST CASE",
+      "vi": "CA KIỂM THỬ"
+    },
+    "PRIORITY": {
+      "en": "PRIORITY",
+      "vi": "ƯU TIÊN"
+    },
+    "STATUS": {
+      "en": "STATUS",
+      "vi": "TRẠNG THÁI"
+    },
+    "High": {
+      "en": "High",
+      "vi": "Cao"
+    },
+    "Medium": {
+      "en": "Medium",
+      "vi": "Trung bình"
+    },
+    "Low": {
+      "en": "Low",
+      "vi": "Thấp"
+    },
+    "Pass": {
+      "en": "Pass",
+      "vi": "Đạt"
+    },
+    "Fail": {
+      "en": "Fail",
+      "vi": "Không đạt"
+    },
+    "Not Run": {
+      "en": "Not Run",
+      "vi": "Chưa chạy"
+    },
+    "Preconditions": {
+      "en": "Preconditions",
+      "vi": "Điều kiện tiên quyết"
+    },
+    "Steps": {
+      "en": "Steps",
+      "vi": "Các bước"
+    },
+    "Expected result": {
+      "en": "Expected result",
+      "vi": "Kết quả mong đợi"
+    },
+    "Execution note": {
+      "en": "Execution note",
+      "vi": "Ghi chú thực thi"
+    },
+    "No execution note recorded.": {
+      "en": "No execution note recorded.",
+      "vi": "Chưa có ghi chú thực thi."
+    },
+    "No test cases match this filter.": {
+      "en": "No test cases match this filter.",
+      "vi": "Không có ca kiểm thử nào phù hợp."
+    },
+    "Showing": {
+      "en": "Showing",
+      "vi": "Hiển thị"
+    },
+    "of": {
+      "en": "of",
+      "vi": "trên"
+    },
+    "test cases": {
+      "en": "test cases",
+      "vi": "ca kiểm thử"
+    },
+    "Execution snapshot": {
+      "en": "Execution snapshot",
+      "vi": "Tổng quan thực thi"
+    },
+    "pass rate": {
+      "en": "pass rate",
+      "vi": "tỷ lệ đạt"
+    },
+    "EXECUTE": {
+      "en": "EXECUTE",
+      "vi": "THỰC THI"
+    },
+    "VALIDATE": {
+      "en": "VALIDATE",
+      "vi": "XÁC MINH"
+    },
+    "Results,": {
+      "en": "Results,",
+      "vi": "Kết quả,"
+    },
+    "not just": {
+      "en": "not just",
+      "vi": "không chỉ là"
+    },
+    "intentions.": {
+      "en": "intentions.",
+      "vi": "kế hoạch."
+    },
+    "The latest recorded run reveals one concrete validation issue and a clear next action for regression.": {
+      "en": "The latest recorded run reveals one concrete validation issue and a clear next action for regression.",
+      "vi": "Lần chạy gần nhất cho thấy một lỗi xác thực cụ thể và bước tiếp theo rõ ràng cho kiểm thử hồi quy."
+    },
+    "Test execution trace": {
+      "en": "Test execution trace",
+      "vi": "Tiến trình thực thi kiểm thử"
+    },
+    "Executed": {
+      "en": "Executed",
+      "vi": "Đã chạy"
+    },
+    "Passed": {
+      "en": "Passed",
+      "vi": "Đạt"
+    },
+    "Failed": {
+      "en": "Failed",
+      "vi": "Không đạt"
+    },
+    "Not run": {
+      "en": "Not run",
+      "vi": "Chưa chạy"
+    },
+    "Executed by": {
+      "en": "Executed by",
+      "vi": "Người thực thi"
+    },
+    "Environment": {
+      "en": "Environment",
+      "vi": "Môi trường"
+    },
+    "Last run": {
+      "en": "Last run",
+      "vi": "Lần chạy cuối"
+    },
+    "Test strategy": {
+      "en": "Test strategy",
+      "vi": "Chiến lược kiểm thử"
+    },
+    "A deliberate": {
+      "en": "A deliberate",
+      "vi": "Phương pháp kiểm thử"
+    },
+    "testing approach.": {
+      "en": "testing approach.",
+      "vi": "có chủ đích."
+    },
+    "The plan balances structured cases with exploratory testing, while keeping scope and release criteria explicit.": {
+      "en": "The plan balances structured cases with exploratory testing, while keeping scope and release criteria explicit.",
+      "vi": "Kế hoạch kết hợp các ca kiểm thử có cấu trúc với kiểm thử khám phá, đồng thời nêu rõ phạm vi và tiêu chí phát hành."
+    },
+    "QA workflow": {
+      "en": "QA workflow",
+      "vi": "Quy trình QA"
+    },
+    "Understand": {
+      "en": "Understand",
+      "vi": "Tìm hiểu"
+    },
+    "Plan": {
+      "en": "Plan",
+      "vi": "Lập kế hoạch"
+    },
+    "Design": {
+      "en": "Design",
+      "vi": "Thiết kế"
+    },
+    "Execute": {
+      "en": "Execute",
+      "vi": "Thực thi"
+    },
+    "Report": {
+      "en": "Report",
+      "vi": "Báo cáo"
+    },
+    "Regress": {
+      "en": "Regress",
+      "vi": "Kiểm thử lại"
+    },
+    "Test plan sections": {
+      "en": "Test plan sections",
+      "vi": "Các phần của kế hoạch kiểm thử"
+    },
+    "TEST STRATEGY": {
+      "en": "TEST STRATEGY",
+      "vi": "CHIẾN LƯỢC KIỂM THỬ"
+    },
+    "Previous strategy section": {
+      "en": "Previous strategy section",
+      "vi": "Phần chiến lược trước"
+    },
+    "Next strategy section": {
+      "en": "Next strategy section",
+      "vi": "Phần chiến lược tiếp theo"
+    },
+    "Defect case study": {
+      "en": "Defect case study",
+      "vi": "Nghiên cứu tình huống lỗi"
+    },
+    "From failure to": {
+      "en": "From failure to",
+      "vi": "Từ lỗi phát hiện đến"
+    },
+    "an actionable report.": {
+      "en": "an actionable report.",
+      "vi": "báo cáo có thể xử lý."
+    },
+    "A real defect, clearly documented from reproduction to impact.": {
+      "en": "A real defect, clearly documented from reproduction to impact.",
+      "vi": "Một lỗi thực tế, được ghi rõ từ cách tái hiện đến tác động."
+    },
+    "Back to test cases": {
+      "en": "Back to test cases",
+      "vi": "Quay lại ca kiểm thử"
+    },
+    "OPEN": {
+      "en": "OPEN",
+      "vi": "ĐANG MỞ"
+    },
+    "SEVERITY": {
+      "en": "SEVERITY",
+      "vi": "MỨC ĐỘ"
+    },
+    "Steps to reproduce": {
+      "en": "Steps to reproduce",
+      "vi": "Các bước tái hiện"
+    },
+    "Actual": {
+      "en": "Actual",
+      "vi": "Thực tế"
+    },
+    "Expected": {
+      "en": "Expected",
+      "vi": "Mong đợi"
+    },
+    "WHY IT MATTERS": {
+      "en": "WHY IT MATTERS",
+      "vi": "VÌ SAO QUAN TRỌNG"
+    },
+    "Invalid contact data can enter the system, reducing data quality and breaking downstream communication.": {
+      "en": "Invalid contact data can enter the system, reducing data quality and breaking downstream communication.",
+      "vi": "Dữ liệu liên hệ không hợp lệ có thể vào hệ thống, làm giảm chất lượng dữ liệu và gián đoạn liên lạc về sau."
+    },
+    "Test data": {
+      "en": "Test data",
+      "vi": "Dữ liệu kiểm thử"
+    },
+    "Repeatable inputs.": {
+      "en": "Repeatable inputs.",
+      "vi": "Dữ liệu có thể lặp lại."
+    },
+    "Reliable checks.": {
+      "en": "Reliable checks.",
+      "vi": "Kiểm tra đáng tin cậy."
+    },
+    "Profile": {
+      "en": "Profile",
+      "vi": "Hồ sơ"
+    },
+    "Name": {
+      "en": "Name",
+      "vi": "Tên"
+    },
+    "Email": {
+      "en": "Email",
+      "vi": "Email"
+    },
+    "Current address": {
+      "en": "Current address",
+      "vi": "Địa chỉ hiện tại"
+    },
+    "Permanent address": {
+      "en": "Permanent address",
+      "vi": "Địa chỉ thường trú"
+    },
+    "Let's build quality in,": {
+      "en": "Let's build quality in,",
+      "vi": "Cùng xây dựng chất lượng,"
+    },
+    "not bolt it on later.": {
+      "en": "not bolt it on later.",
+      "vi": "ngay từ đầu."
+    },
+    "Explore the full test artifacts, commit history, and future automation roadmap on GitHub.": {
+      "en": "Explore the full test artifacts, commit history, and future automation roadmap on GitHub.",
+      "vi": "Xem toàn bộ tài liệu kiểm thử, lịch sử thay đổi và lộ trình tự động hóa trên GitHub."
+    },
+    "Open GitHub repository": {
+      "en": "Open GitHub repository",
+      "vi": "Mở kho mã nguồn GitHub"
+    },
+    "Manual testing portfolio": {
+      "en": "Manual testing portfolio",
+      "vi": "Hồ sơ kiểm thử thủ công"
+    },
+    "Built from living QA artifacts": {
+      "en": "Built from living QA artifacts",
+      "vi": "Xây dựng từ tài liệu QA được cập nhật thường xuyên"
+    },
+    "Home page loads": {
+      "en": "Home page loads",
+      "vi": "Trang chủ tải thành công"
+    },
+    "Text Box: submit form": {
+      "en": "Text Box: submit form",
+      "vi": "Text Box: gửi biểu mẫu"
+    },
+    "Text Box: validate required email": {
+      "en": "Text Box: validate required email",
+      "vi": "Text Box: xác thực email bắt buộc"
+    },
+    "File Upload: accept valid file": {
+      "en": "File Upload: accept valid file",
+      "vi": "Tải tệp lên: chấp nhận tệp hợp lệ"
+    },
+    "Links: no broken links on main sections": {
+      "en": "Links: no broken links on main sections",
+      "vi": "Liên kết: không có liên kết hỏng ở các mục chính"
+    },
+    "Demo site up": {
+      "en": "Demo site up",
+      "vi": "Trang demo hoạt động"
+    },
+    "Text Box page open": {
+      "en": "Text Box page open",
+      "vi": "Đã mở trang Text Box"
+    },
+    "Upload page open": {
+      "en": "Upload page open",
+      "vi": "Đã mở trang tải tệp"
+    },
+    "Home page open": {
+      "en": "Home page open",
+      "vi": "Đã mở trang chủ"
+    },
+    "Navigate to home page": {
+      "en": "Navigate to home page",
+      "vi": "Truy cập trang chủ"
+    },
+    "Observe page": {
+      "en": "Observe page",
+      "vi": "Quan sát trang"
+    },
+    "Fill required fields": {
+      "en": "Fill required fields",
+      "vi": "Điền các trường bắt buộc"
+    },
+    "Click Submit": {
+      "en": "Click Submit",
+      "vi": "Nhấn Submit"
+    },
+    "Enter invalid email": {
+      "en": "Enter invalid email",
+      "vi": "Nhập email không hợp lệ"
+    },
+    "Submit": {
+      "en": "Submit",
+      "vi": "Gửi biểu mẫu"
+    },
+    "Choose supported file": {
+      "en": "Choose supported file",
+      "vi": "Chọn tệp được hỗ trợ"
+    },
+    "Upload": {
+      "en": "Upload",
+      "vi": "Tải lên"
+    },
+    "Click primary links": {
+      "en": "Click primary links",
+      "vi": "Nhấn các liên kết chính"
+    },
+    "Verify pages load": {
+      "en": "Verify pages load",
+      "vi": "Xác nhận các trang tải thành công"
+    },
+    "Home page content loads, key navigation present": {
+      "en": "Home page content loads, key navigation present",
+      "vi": "Nội dung trang chủ tải thành công và có các mục điều hướng chính"
+    },
+    "Form submission shows entered data confirmation": {
+      "en": "Form submission shows entered data confirmation",
+      "vi": "Sau khi gửi, biểu mẫu hiển thị xác nhận dữ liệu đã nhập"
+    },
+    "Validation message shown; submission blocked": {
+      "en": "Validation message shown; submission blocked",
+      "vi": "Hiển thị thông báo xác thực; không cho gửi biểu mẫu"
+    },
+    "File uploads successfully and confirmation shown": {
+      "en": "File uploads successfully and confirmation shown",
+      "vi": "Tệp được tải lên thành công và có thông báo xác nhận"
+    },
+    "No broken links; pages reachable": {
+      "en": "No broken links; pages reachable",
+      "vi": "Không có liên kết hỏng; các trang đều truy cập được"
+    },
+    "Used sample data row 1": {
+      "en": "Used sample data row 1",
+      "vi": "Đã dùng dòng dữ liệu mẫu số 1"
+    },
+    "Validation not shown for invalid email": {
+      "en": "Validation not shown for invalid email",
+      "vi": "Không hiển thị lỗi xác thực khi nhập email không hợp lệ"
+    },
+    "Purpose and Objectives": {
+      "en": "Purpose and Objectives",
+      "vi": "Mục đích và mục tiêu"
+    },
+    "Demonstrate structured manual testing: planning, designing test cases, executing, reporting bugs, and tracking test data.": {
+      "en": "Demonstrate structured manual testing: planning, designing test cases, executing, reporting bugs, and tracking test data.",
+      "vi": "Thể hiện quy trình kiểm thử thủ công có cấu trúc: lập kế hoạch, thiết kế ca kiểm thử, thực thi, báo cáo lỗi và quản lý dữ liệu kiểm thử."
+    },
+    "Provide artifacts suitable for interviews and initial team contributions.": {
+      "en": "Provide artifacts suitable for interviews and initial team contributions.",
+      "vi": "Cung cấp tài liệu phù hợp cho phỏng vấn và những đóng góp ban đầu trong nhóm."
+    },
+    "Scope": {
+      "en": "Scope",
+      "vi": "Phạm vi"
+    },
+    "In-scope: Core interactive UI elements (forms, buttons, links), basic workflows (form submission, file upload/download), input validation, navigation and accessibility checks.": {
+      "en": "In-scope: Core interactive UI elements (forms, buttons, links), basic workflows (form submission, file upload/download), input validation, navigation and accessibility checks.",
+      "vi": "Trong phạm vi: các thành phần tương tác chính (biểu mẫu, nút, liên kết), luồng cơ bản (gửi biểu mẫu, tải tệp lên/xuống), xác thực đầu vào, điều hướng và kiểm tra khả năng tiếp cận."
+    },
+    "Out-of-scope: Performance, security, and extensive cross-browser matrix (can be added later).": {
+      "en": "Out-of-scope: Performance, security, and extensive cross-browser matrix (can be added later).",
+      "vi": "Ngoài phạm vi: hiệu năng, bảo mật và kiểm thử trên nhiều trình duyệt ở quy mô lớn (có thể bổ sung sau)."
+    },
+    "Test Approach": {
+      "en": "Test Approach",
+      "vi": "Phương pháp kiểm thử"
+    },
+    "Manual test cases organized by type: Smoke, Functional, Regression.": {
+      "en": "Manual test cases organized by type: Smoke, Functional, Regression.",
+      "vi": "Các ca kiểm thử thủ công được phân theo loại: Smoke, Chức năng, Hồi quy."
+    },
+    "Exploratory testing during test execution to discover edge cases.": {
+      "en": "Exploratory testing during test execution to discover edge cases.",
+      "vi": "Thực hiện kiểm thử khám phá để tìm các trường hợp biên."
+    },
+    "Use sample test data in test_data.csv.": {
+      "en": "Use sample test data in test_data.csv.",
+      "vi": "Sử dụng dữ liệu mẫu trong test_data.csv."
+    },
+    "Test Items": {
+      "en": "Test Items",
+      "vi": "Hạng mục kiểm thử"
+    },
+    "Text Box (Forms)": {
+      "en": "Text Box (Forms)",
+      "vi": "Text Box (biểu mẫu)"
+    },
+    "Buttons": {
+      "en": "Buttons",
+      "vi": "Các nút"
+    },
+    "Links (including broken links)": {
+      "en": "Links (including broken links)",
+      "vi": "Liên kết (bao gồm liên kết hỏng)"
+    },
+    "File upload/download": {
+      "en": "File upload/download",
+      "vi": "Tải tệp lên/xuống"
+    },
+    "Checkboxes and radio buttons": {
+      "en": "Checkboxes and radio buttons",
+      "vi": "Hộp chọn và nút chọn"
+    },
+    "Test Types": {
+      "en": "Test Types",
+      "vi": "Các loại kiểm thử"
+    },
+    "Smoke: basic sanity checks to ensure major flows work.": {
+      "en": "Smoke: basic sanity checks to ensure major flows work.",
+      "vi": "Smoke: kiểm tra nhanh để đảm bảo các luồng chính hoạt động."
+    },
+    "Functional: feature-level tests for expected behavior.": {
+      "en": "Functional: feature-level tests for expected behavior.",
+      "vi": "Chức năng: kiểm tra từng tính năng theo hành vi mong đợi."
+    },
+    "Regression: re-run critical tests after fixes.": {
+      "en": "Regression: re-run critical tests after fixes.",
+      "vi": "Hồi quy: chạy lại các ca quan trọng sau khi sửa lỗi."
+    },
+    "Entry Criteria": {
+      "en": "Entry Criteria",
+      "vi": "Tiêu chí bắt đầu"
+    },
+    "Demo site accessible and stable.": {
+      "en": "Demo site accessible and stable.",
+      "vi": "Trang demo truy cập được và hoạt động ổn định."
+    },
+    "Test cases reviewed.": {
+      "en": "Test cases reviewed.",
+      "vi": "Các ca kiểm thử đã được rà soát."
+    },
+    "Exit Criteria": {
+      "en": "Exit Criteria",
+      "vi": "Tiêu chí kết thúc"
+    },
+    "All smoke tests pass.": {
+      "en": "All smoke tests pass.",
+      "vi": "Tất cả ca smoke đều đạt."
+    },
+    "No P0/P1 open defects.": {
+      "en": "No P0/P1 open defects.",
+      "vi": "Không còn lỗi P0/P1 đang mở."
+    },
+    "Test execution records updated.": {
+      "en": "Test execution records updated.",
+      "vi": "Đã cập nhật kết quả thực thi kiểm thử."
+    },
+    "Risks and Mitigations": {
+      "en": "Risks and Mitigations",
+      "vi": "Rủi ro và cách giảm thiểu"
+    },
+    "Demo site instability: schedule testing during low-traffic windows and document intermittent failures.": {
+      "en": "Demo site instability: schedule testing during low-traffic windows and document intermittent failures.",
+      "vi": "Trang demo không ổn định: lên lịch kiểm thử vào lúc ít truy cập và ghi nhận lỗi xảy ra không thường xuyên."
+    },
+    "Incomplete requirements: adopt exploratory testing and document assumptions.": {
+      "en": "Incomplete requirements: adopt exploratory testing and document assumptions.",
+      "vi": "Yêu cầu chưa đầy đủ: áp dụng kiểm thử khám phá và ghi lại các giả định."
+    },
+    "Reporting": {
+      "en": "Reporting",
+      "vi": "Báo cáo"
+    },
+    "Use BUG_REPORT_TEMPLATE.md for issues.": {
+      "en": "Use BUG_REPORT_TEMPLATE.md for issues.",
+      "vi": "Dùng BUG_REPORT_TEMPLATE.md để ghi nhận lỗi."
+    },
+    "Store execution results in SAMPLE_TEST_EXECUTION_REPORT.csv.": {
+      "en": "Store execution results in SAMPLE_TEST_EXECUTION_REPORT.csv.",
+      "vi": "Lưu kết quả thực thi trong SAMPLE_TEST_EXECUTION_REPORT.csv."
+    },
+    "How I'd extend this": {
+      "en": "How I'd extend this",
+      "vi": "Hướng phát triển tiếp theo"
+    },
+    "Add automation (suggested stack: JavaScript + Playwright) for smoke/regression tests.": {
+      "en": "Add automation (suggested stack: JavaScript + Playwright) for smoke/regression tests.",
+      "vi": "Bổ sung tự động hóa (gợi ý: JavaScript + Playwright) cho kiểm thử smoke/hồi quy."
+    },
+    "Add GitHub Actions CI to run automation on push and PRs.": {
+      "en": "Add GitHub Actions CI to run automation on push and PRs.",
+      "vi": "Thêm GitHub Actions CI để chạy kiểm thử tự động khi push và tạo PR."
+    },
+    "Add HTML/JUnit reporting and Docker-based test runner for reproducible runs.": {
+      "en": "Add HTML/JUnit reporting and Docker-based test runner for reproducible runs.",
+      "vi": "Thêm báo cáo HTML/JUnit và môi trường chạy Docker để có thể lặp lại kết quả."
+    },
+    "Form submit accepts invalid email": {
+      "en": "Form submit accepts invalid email",
+      "vi": "Biểu mẫu chấp nhận email không hợp lệ"
+    },
+    "Open Text Box page": {
+      "en": "Open Text Box page",
+      "vi": "Mở trang Text Box"
+    },
+    "Enter 'not-an-email' in Email field": {
+      "en": "Enter 'not-an-email' in Email field",
+      "vi": "Nhập 'not-an-email' vào trường Email"
+    },
+    "Form submits and confirmation shows invalid email": {
+      "en": "Form submits and confirmation shows invalid email",
+      "vi": "Biểu mẫu vẫn được gửi và xác nhận hiển thị email không hợp lệ"
+    },
+    "Validation error shown and form not submitted": {
+      "en": "Validation error shown and form not submitted",
+      "vi": "Hiển thị lỗi xác thực và không gửi biểu mẫu"
+    },
+    "This DemoQA sample links each test case to execution evidence and the documented defect.": {
+      "en": "This DemoQA sample links each test case to execution evidence and the documented defect.",
+      "vi": "Case study DemoQA này liên kết từng ca kiểm thử với kết quả thực thi và lỗi đã ghi nhận."
+    }
+  },
+  "settings": {
+    "brand": "HIEU.NT / QA",
+    "repositoryUrl": "https://github.com/hieunt210703/Qa-Portfolio",
+    "siteTitle": "Hieu NT — QA Portfolio",
+    "siteDescription": "A QA portfolio covering professional experience, manual test cases, execution results, and defect reporting.",
+    "runProduct": "demoqa.com",
+    "runSuite": {
+      "en": "sample test run",
+      "vi": "lần kiểm thử mẫu"
+    },
+    "runEnvironment": "Chrome / Windows",
+    "executionEnvironment": "DemoQA / Web",
+    "bugId": "BUG-001",
+    "ownerName": "Nguyen Trung Hieu"
+  }
+}

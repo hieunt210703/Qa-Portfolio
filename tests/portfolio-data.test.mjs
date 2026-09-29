@@ -1,5 +1,6 @@
 import test from "node:test";
 import assert from "node:assert/strict";
+import { readFile } from "node:fs/promises";
 import {
   buildPortfolioData,
   parseBugExample,
@@ -22,11 +23,14 @@ test("Markdown parsers return structured portfolio content", () => {
   );
 });
 
-test("repository artifacts produce the expected portfolio data", async () => {
+test("repository artifacts match the managed QA content", async () => {
   const data = await buildPortfolioData();
-  assert.equal(data.testCases.length, 5);
-  assert.equal(data.executions.length, 3);
-  assert.equal(data.testData.length, 2);
-  assert.ok(data.planSections.length >= 8);
-  assert.equal(data.bug.severity, "P1");
+  const content = JSON.parse(await readFile(new URL("../content/portfolio.json", import.meta.url), "utf8"));
+  assert.deepEqual(data.testCases, content.qa.testCases);
+  assert.deepEqual(data.executions, content.qa.executions);
+  assert.deepEqual(data.testData, content.qa.testData);
+  assert.deepEqual(data.planSections, content.qa.planSections);
+  const bug = structuredClone(content.qa.bug);
+  delete bug.status;
+  assert.deepEqual(data.bug, bug);
 });

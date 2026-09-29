@@ -98,7 +98,7 @@ export async function buildPortfolioData() {
     type: testCase.Type,
     priority: testCase.Priority,
     preconditions: testCase.Preconditions,
-    steps: testCase.Steps.split(";").map((step) => step.trim()),
+    steps: testCase.Steps.split(testCase.Steps.includes("\n") ? /\r?\n/ : ";").map((step) => step.trim()),
     expected: testCase["Expected Result"],
   }));
 
