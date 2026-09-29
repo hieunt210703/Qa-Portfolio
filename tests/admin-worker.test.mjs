@@ -19,6 +19,7 @@ test("GitHub sign-in allows an owner to save a cloud draft and publish without e
   const origin = "https://admin.example";
   const previousFetch = globalThis.fetch;
   let storedDraft = null;
+  let oauthGranted = true;
   const githubCalls = [];
   const env = {
     GITHUB_CLIENT_ID: "test-client",
@@ -43,7 +44,8 @@ test("GitHub sign-in allows an owner to save a cloud draft and publish without e
   globalThis.fetch = async (input, options = {}) => {
     const url = String(input);
     githubCalls.push({ url, options });
-    if (url === "https://github.com/login/oauth/access_token") return Response.json({ access_token: "ghu_test", expires_in: 28_800, refresh_token: "ghr_test", refresh_token_expires_in: 15_897_600 });
+    if (url === "https://github.com/login/oauth/access_token") return Response.json(oauthGranted ? { access_token: "ghu_test", expires_in: 28_800, refresh_token: "ghr_test", refresh_token_expires_in: 15_897_600 } : { error: "bad_verification_code" });
+    if (url.startsWith("https://api.github.com/") && !options.headers?.["User-Agent"]) return Response.json({ message: "User agent required" }, { status: 403 });
     if (url === "https://api.github.com/user") return Response.json({ login: "hieunt210703" });
     if (url.endsWith("/git/ref/heads/main")) return Response.json({ object: { sha: "parent-sha" } });
     if (url.endsWith("/git/commits/parent-sha")) return Response.json({ tree: { sha: "base-tree-sha" } });
@@ -83,6 +85,11 @@ test("GitHub sign-in allows an owner to save a cloud draft and publish without e
     assert.equal((await publish.json()).commitUrl, "https://github.com/hieunt210703/Qa-Portfolio/commit/new-commit-sha");
     assert.ok(githubCalls.filter((call) => call.url.includes("api.github.com/repos")).every((call) => call.options.headers.Authorization === "Bearer ghu_test"));
     assert.ok(githubCalls.filter((call) => call.url.includes("api.github.com/repos")).every((call) => !String(call.options.body ?? "").includes("test-secret")));
+    oauthGranted = false;
+    const retry = await worker.fetch(new Request(`${origin}/admin-api/auth/callback?state=${state}&code=used-code`, { headers: { Cookie: `qa_portfolio_oauth=${stateValue}` } }), env);
+    assert.equal(retry.status, 401);
+    assert.match(retry.headers.get("Content-Type"), /text\/html/);
+    assert.match(await retry.text(), /Thử đăng nhập lại/);
   } finally {
     globalThis.fetch = previousFetch;
   }

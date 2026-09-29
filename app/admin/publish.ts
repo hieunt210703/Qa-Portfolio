@@ -2,6 +2,7 @@ import type { PortfolioContent } from "../content";
 
 const apiRoot = "https://api.github.com/repos/hieunt210703/Qa-Portfolio";
 const apiVersion = "2026-03-10";
+const githubUserAgent = "Hieu-QA-Portfolio-Admin";
 
 const csvCell = (value: string) => /[",\r\n]/.test(value) ? `"${value.replaceAll('"', '""')}"` : value;
 const csvRow = (values: string[]) => values.map(csvCell).join(",");
@@ -84,6 +85,7 @@ async function request<T>(path: string, token: string, method = "GET", body?: un
     headers: {
       Accept: "application/vnd.github+json",
       Authorization: `Bearer ${token.trim()}`,
+      "User-Agent": githubUserAgent,
       "X-GitHub-Api-Version": apiVersion,
       ...(body === undefined ? {} : { "Content-Type": "application/json" }),
     },

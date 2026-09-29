@@ -35,6 +35,7 @@ type Session = {
 };
 
 const apiVersion = "2026-03-10";
+const githubUserAgent = "Hieu-QA-Portfolio-Admin";
 const sessionCookieName = "qa_portfolio_session";
 const stateCookieName = "qa_portfolio_oauth";
 const draftTable = "portfolio_draft";
@@ -46,6 +47,11 @@ function json(data: unknown, status = 200, headers?: HeadersInit): Response {
     status,
     headers: { "Content-Type": "application/json; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff", ...headers },
   });
+}
+
+function authFailure(message: string, status = 401): Response {
+  const body = `<!doctype html><html lang="vi"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Đăng nhập chưa thành công</title><main style="max-width:34rem;margin:12vh auto;padding:2rem;font:16px/1.6 system-ui,sans-serif;color:#1f2937"><h1>Đăng nhập chưa thành công</h1><p>${message}</p><a href="/admin-api/auth/start" style="display:inline-block;padding:.7rem 1rem;background:#1f5f55;color:white;border-radius:.6rem;text-decoration:none">Thử đăng nhập lại</a></main></html>`;
+  return new Response(body, { status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" } });
 }
 
 function cookie(request: Request, name: string): string | null {
@@ -230,7 +236,7 @@ async function ensureDraftTable(env: Env): Promise<void> {
 async function currentPublished(token: string): Promise<PortfolioContent> {
   const response = await fetch("https://api.github.com/repos/hieunt210703/Qa-Portfolio/contents/content/portfolio.json?ref=main", {
     cache: "no-store",
-    headers: { Accept: "application/vnd.github.raw+json", Authorization: `Bearer ${token}`, "X-GitHub-Api-Version": apiVersion },
+    headers: { Accept: "application/vnd.github.raw+json", Authorization: `Bearer ${token}`, "User-Agent": githubUserAgent, "X-GitHub-Api-Version": apiVersion },
   });
   if (!response.ok) return defaultPortfolioContent;
   const parsed: unknown = await response.json();
@@ -289,13 +295,16 @@ async function route(request: Request, env: Env): Promise<Response> {
   if (path === "/admin-api/auth/callback" && request.method === "GET") {
     const stored = cookie(request, stateCookieName);
     const [state, verifier] = stored?.split(".") ?? [];
-    if (!state || !verifier || state !== url.searchParams.get("state") || !url.searchParams.get("code")) return json({ error: "Phiên đăng nhập GitHub không hợp lệ. Hãy thử lại." }, 400);
+    if (!state || !verifier || state !== url.searchParams.get("state") || !url.searchParams.get("code")) return authFailure("Phiên đăng nhập đã hết hạn. Hãy bắt đầu lại từ nút bên dưới.", 400);
     const tokens = await exchangeCode(url.searchParams.get("code")!, verifier, url.origin, env);
-    if (!tokens.access_token || tokens.error) return json({ error: "GitHub chưa cấp quyền cho ứng dụng admin." }, 401);
-    const userResponse = await fetch("https://api.github.com/user", { headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${tokens.access_token}`, "X-GitHub-Api-Version": apiVersion } });
-    if (!userResponse.ok) return json({ error: "Không xác minh được tài khoản GitHub." }, 401);
+    if (!tokens.access_token || tokens.error) return authFailure("GitHub chưa cấp quyền hoặc mã đăng nhập đã được dùng. Hãy bấm bên dưới để thử lại.");
+    const userResponse = await fetch("https://api.github.com/user", { headers: { Accept: "application/vnd.github+json", Authorization: `Bearer ${tokens.access_token}`, "User-Agent": githubUserAgent, "X-GitHub-Api-Version": apiVersion } });
+    if (!userResponse.ok) {
+      console.error("GitHub user verification failed", { status: userResponse.status });
+      return authFailure(`Không xác minh được tài khoản GitHub (HTTP ${userResponse.status}). Hãy thử đăng nhập lại.`);
+    }
     const user = await userResponse.json() as { login?: string };
-    if (user.login?.toLowerCase() !== env.ADMIN_GITHUB_LOGIN?.toLowerCase()) return json({ error: "Tài khoản GitHub này không được phép quản lý portfolio." }, 403);
+    if (user.login?.toLowerCase() !== env.ADMIN_GITHUB_LOGIN?.toLowerCase()) return authFailure("Tài khoản GitHub này không được phép quản lý portfolio. Hãy đăng nhập đúng tài khoản sở hữu repository Qa-Portfolio.", 403);
     const now = Date.now();
     const session: Session = {
       login: user.login!,
