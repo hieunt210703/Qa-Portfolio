@@ -8,8 +8,10 @@ const destination = resolve(root, "dist");
 
 await rm(destination, { recursive: true, force: true });
 await mkdir(destination, { recursive: true });
-await cp(source, destination, { recursive: true });
-await writeFile(resolve(destination, ".nojekyll"), "", "utf8");
+const clientDirectory = resolve(destination, "client");
+await mkdir(clientDirectory, { recursive: true });
+await cp(source, clientDirectory, { recursive: true });
+await writeFile(resolve(clientDirectory, ".nojekyll"), "", "utf8");
 await mkdir(resolve(destination, "server"), { recursive: true });
 await build({
   entryPoints: [resolve(root, "worker", "index.ts")],
